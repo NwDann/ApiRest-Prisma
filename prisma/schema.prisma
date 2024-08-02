@@ -9,7 +9,26 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
+model Author {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  firstName String
+  lastName String
+  book Book[]
+}
+
+model Book {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  title String
+  isFiction Boolean
+  datePublished DateTime
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
+}
