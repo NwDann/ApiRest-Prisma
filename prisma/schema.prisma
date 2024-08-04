@@ -16,7 +16,7 @@ datasource db {
 model Author {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
   firstName String
   lastName String
   book Book[]
@@ -25,7 +25,7 @@ model Author {
 model Book {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
   title String
   isFiction Boolean
   datePublished DateTime
