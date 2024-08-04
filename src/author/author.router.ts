@@ -1,9 +1,9 @@
 
 import express from "express";
-import type { Response, Request} from "express";
+import type { Response, Request } from "express";
 import { body, validationResult } from "express-validator";
 
-import * as AuthorService from "./author.service"
+import * as AuthorService from "./author.service";
 
 export const authorRouter = express.Router();
 
@@ -47,3 +47,31 @@ authorRouter.post("/", body("firstName").isString(), body("lastName").isString()
         return response.status(500).json(error.message);
     }
 });
+
+// PUT: Update an author
+// params: firstName|lastName
+authorRouter.put("/:id", body("firstName").isString(), body("lastName").isString(), async (request: Request, response: Response) => {
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+        return response.status(400).json({ errors: errors.array()});
+    }
+    const id: number = parseInt(request.params.id, 10);
+    try {
+        const author = request.body;
+        const updatedAuthor = await AuthorService.updateAuthor(author, id);
+        return response.status(200).json(updatedAuthor);
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+});
+
+// DELETE: Delete an author with an id
+authorRouter.delete("/:id", async (request: Request, response: Response) => {
+    const id: number = parseInt(request.params.id, 10);
+    try {
+        await AuthorService.deleteAuthor(id);
+        return response.status(204).json("Author succesfully deleted");
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})

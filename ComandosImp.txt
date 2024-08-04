@@ -1,0 +1,8 @@
+ Para generar el cliente de prisma si existe algun cambio en la db:
+npx prisma generate
+ Para crear la db a partir del modelo de prisma en schema.prisma:
+npx prisma db push
+ Para instalar las dependencias:
+npm install
+ Para correr el proyecto:
+npm run dev
